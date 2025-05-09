@@ -8,6 +8,7 @@ const createToken = (user) => {
 
 exports.signup = async (req, res) => {
     try {
+        console.log("Trying to signup")
         const { username, email, password, role } = req.body
         const hashedPassowrd = await bcrypt.hash(password, 10)
         const newUser = await User.create({ username, email, password: hashedPassowrd, role })
@@ -15,7 +16,7 @@ exports.signup = async (req, res) => {
         res.cookie('token', token, { httpOnly: true})
         res.status(201).json({message: 'User created successfully', user: newUser._id})
     } catch (error) {
-        res.status(400).json({error: error.messgaeq})
+        res.status(400).json({error: error.message})
     }
 }
 

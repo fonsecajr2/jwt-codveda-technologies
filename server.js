@@ -10,8 +10,11 @@ app.use(express.json())
 app.use(cookieParser())
 app.use('/api/auth', authRoutes)
 
-mongoose.connect(process.env.Mongo_URI)
-    .then(() => app.listen(3000, () => console.log('server runing on port 3000')) )
+const port = process.env.PORT || 3000
+const mongoURI = process.env.Mongo_URI
+
+mongoose.connect(mongoURI)
+    .then(() => app.listen(port, () => console.log('server runing on port ', port)) )
     .catch( err => console.log(err) )
 
 

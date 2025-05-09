@@ -5,6 +5,7 @@ const { signup, login } = require('../controllers/authController')
 const router = express.Router()
 
 router.post('/signup', signup)
+console.log("signing up")
 // router.login('/login', login)
 
 //protected route for frontend
