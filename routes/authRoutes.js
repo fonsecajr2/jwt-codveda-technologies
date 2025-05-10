@@ -1,16 +1,18 @@
 const express = require('express')
-const { signup, login } = require('../controllers/authController')
-// const { authenticateUser, authorizeRoles } = requires('../middleware/authMiddleware')
+const { signup, login, users } = require('../controllers/authController')
+const { authenticateUser, authorizeRoles } = requires('../middleware/authMiddleware')
 
 const router = express.Router()
 
 router.post('/signup', signup)
-console.log("signing up")
-// router.login('/login', login)
+router.post('/login', login)
+router.get('/users', users, authenticateUser, authorizeRoles('admin'))
 
 //protected route for frontend
-// router.get('/admin', authenticateUser, authorizeRoles('admin'), (req, res) => {
-//     res.send('Admin content')
-// })
+router.get('/admin', authenticateUser, authorizeRoles('admin'), (req, res) => {
+    res.send('Admin content')
+})
+
+
 
 module.exports = router

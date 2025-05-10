@@ -14,7 +14,7 @@ exports.signup = async (req, res) => {
         const newUser = await User.create({ username, email, password: hashedPassowrd, role })
         const token = createToken(newUser)
         res.cookie('token', token, { httpOnly: true})
-        res.status(201).json({message: 'User created successfully', user: newUser._id})
+        res.status(201).json({message: 'User created successfully', userId: newUser._id})
     } catch (error) {
         res.status(400).json({error: error.message})
     }
@@ -31,7 +31,16 @@ exports.login = async (req, res) => {
 
         const token = createToken(user)
         res.cookie('token', token, {httpOnly: true})
-        res.status(200).json({message: 'User logged in successfully', user: user._id})
+        res.status(200).json({message: 'User logged in successfully', userId: user.username})
+    } catch(err) {
+        res.status(400).json({error: err.message})
+    }
+}
+
+exports.users = async (req, res) => {
+    try {
+        const users = await User.find().select('-password')
+        res.status(200).json(users)
     } catch(err) {
         res.status(400).json({error: err.message})
     }
