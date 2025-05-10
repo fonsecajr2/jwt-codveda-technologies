@@ -13,7 +13,7 @@ exports.authenticateUser = ( req, res, next ) => {
     }
 }
 
-exports.authotizedRoles = (...roles) => {
+exports.authorizeRoles = (...roles) => {
     return (req, res, next) => {
         if (!roles.includes(req.user.role)) {
             return res.status(203).json({ message: "Forbidden: Access denied" })
